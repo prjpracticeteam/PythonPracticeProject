@@ -15,7 +15,13 @@ RUN wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.55/bin/apache-tomc
 # Copy war file to tomcat webapps directory
 COPY SampleWebApp.war /usr/local/tomcat9/webapps/
 
-EXPOSE 80 8080
+# Expose port 8080 for Tomcat
+EXPOSE 8080
+
+# Configure Apache2 as a reverse proxy for Tomcat
+RUN a2enmod proxy && \
+    a2enmod proxy_http && \
+    echo "ProxyPass / http://localhost:8080/" >> /etc/apache2/sites-available/000-default.conf
 
 # Start Apache and Tomcat on container startup
 CMD service apache2 start && /usr/local/tomcat9/bin/catalina.sh run
