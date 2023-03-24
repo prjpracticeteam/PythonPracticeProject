@@ -21,7 +21,7 @@ EXPOSE 8080
 # Configure Apache2 as a reverse proxy for Tomcat
 RUN a2enmod proxy && \
     a2enmod proxy_http && \
-    echo "ProxyPass / http://localhost:8080/" >> /etc/apache2/sites-available/000-default.conf
+    echo "ProxyPass / http://localhost:8080/SampleWebApp/" >> /etc/apache2/sites-available/000-default.conf
 
 # Start Apache and Tomcat on container startup
 CMD service apache2 start && /usr/local/tomcat9/bin/catalina.sh run
